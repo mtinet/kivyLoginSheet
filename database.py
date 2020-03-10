@@ -1,5 +1,14 @@
 import datetime
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
+fontName = "fonts/NanumGothic.ttf"
+
+def invalidRegist():
+    pop = Popup(title='Invalid Regist',
+                  content=Label(text='이메일이 이미 존재합니다.', font_name=fontName),
+                  size_hint=(None, None), size=(400, 400))
+    pop.open()
 
 class DataBase:
     def __init__(self, filename):
@@ -31,6 +40,7 @@ class DataBase:
             return 1
         else:
             print("Email exists already")
+            invalidRegist()
             return -1
 
     def validate(self, email, password):
@@ -38,6 +48,7 @@ class DataBase:
             return self.users[email][0] == password
         else:
             return False
+
 
     def save(self):
         with open(self.filename, "w") as f:
@@ -47,5 +58,3 @@ class DataBase:
     @staticmethod
     def get_date():
         return str(datetime.datetime.now()).split(" ")[0]
-
-
